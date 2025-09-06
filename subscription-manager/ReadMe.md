@@ -4,11 +4,21 @@
   <title>RHEL Subscription Manager Guide</title>
 </head>
 <body>
-  <h1>RHEL Subscription Manager</h1>
+  <h1>RHEL Subscription Manager Guide</h1>
 
-  <p>This document explains how to register a Red Hat Enterprise Linux system with the Subscription Manager, attach subscriptions, and manage repositories.</p>
+  <h2>Table of Contents</h2>
+  <ul>
+    <li><a href="#check-status">1. Check Subscription Status</a></li>
+    <li><a href="#register">2. Register System</a></li>
+    <li><a href="#attach">3. Attach Subscription</a></li>
+    <li><a href="#verify">4. Verify Subscription Status</a></li>
+    <li><a href="#list">5. List Subscriptions</a></li>
+    <li><a href="#repos">6. Repository Configuration</a></li>
+    <li><a href="#enabled-repos">7. Display Enabled Repositories</a></li>
+    <li><a href="#configs">8. Important Configurations</a></li>
+  </ul>
 
-  <h2>1. Check Subscription Status</h2>
+  <h2 id="check-status">1. Check Subscription Status</h2>
   <pre>
 [root@localhost ~]# subscription-manager status 
 +-------------------------------------------+ 
@@ -18,7 +28,7 @@ Overall Status: Unknown
 System Purpose Status: Unknown
   </pre>
 
-  <h2>2. Register System</h2>
+  <h2 id="register">2. Register System</h2>
   <pre>
 [root@localhost ~]# subscription-manager register 
 Registering to: subscription.rhsm.redhat.com:443/subscription 
@@ -28,7 +38,7 @@ The system has been registered with ID: df29c0cf-b18e-40a9-b99f-34cf0708e02a
 The registered system name is: localhost.localdomain
   </pre>
 
-  <h2>3. Attach Subscription</h2>
+  <h2 id="attach">3. Attach Subscription</h2>
   <pre>
 [root@localhost ~]# subscription-manager attach --auto 
 Installed Product Current Status: 
@@ -36,7 +46,7 @@ Product Name: Red Hat Enterprise Linux Server
 Status:       Subscribed
   </pre>
 
-  <h2>4. Verify Subscription Status</h2>
+  <h2 id="verify">4. Verify Subscription Status</h2>
   <pre>
 [root@localhost ~]# subscription-manager status 
 +-------------------------------------------+ 
@@ -46,7 +56,7 @@ Overall Status: Current
 System Purpose Status: Not Specified
   </pre>
 
-  <h2>5. List Subscriptions</h2>
+  <h2 id="list">5. List Subscriptions</h2>
   <pre>
 [root@localhost yum.repos.d]# subscription-manager list 
 +-------------------------------------------+ 
@@ -61,7 +71,7 @@ Starts:         11/24/2021
 Ends:           11/24/2022
   </pre>
 
-  <h2>6. Repository Configuration</h2>
+  <h2 id="repos">6. Repository Configuration</h2>
   <p>All repositories are stored at <code>/etc/yum.repos.d/</code>.</p>
   <pre>
 [root@localhost yum.repos.d]# ls 
@@ -80,7 +90,7 @@ gpgkey = file:///etc/pki/rpm-gpg/RPM-GPG-KEY-redhat-release
 gpgcheck = 1
   </pre>
 
-  <h2>7. Display Enabled Repositories</h2>
+  <h2 id="enabled-repos">7. Display Enabled Repositories</h2>
   <pre>
 [root@localhost yum.repos.d]# yum repolist 
 repo id                     repo name                                                  status 
@@ -91,7 +101,7 @@ rhel-7-server-rpms/x86_64   Red Hat Enterprise Linux 7 Server (RPMs)            
 repolist: 75,365
   </pre>
 
-  <h2>8. Important Configurations</h2>
+  <h2 id="configs">8. Important Configurations</h2>
   <h3>Disable Proxy if Not Needed</h3>
   <p>Check <code>/etc/rhsm/rhsm.conf</code> to ensure proxy is not configured if unnecessary.</p>
 
