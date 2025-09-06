@@ -1,0 +1,125 @@
+[root@localhost ~]# subscription-manager status 
++-------------------------------------------+ 
+   System Status Details 
++-------------------------------------------+ 
+Overall Status: Unknown 
+System Purpose Status: Unknown 
+
+ 
+
+[root@localhost ~]# subscription-manager register 
+Registering to: subscription.rhsm.redhat.com:443/subscription 
+Username: madhavisawant 
+Password: ************ 
+The system has been registered with ID: df29c0cf-b18e-40a9-b99f-34cf0708e02a 
+The registered system name is: localhost.localdomain 
+
+ 
+
+[root@localhost ~]# subscription-manager status 
++-------------------------------------------+ 
+   System Status Details 
++-------------------------------------------+ 
+Overall Status: Invalid 
+Red Hat Enterprise Linux Server: 
+- Not supported by a valid subscription. 
+System Purpose Status: Not Specified 
+
+ 
+
+[root@localhost ~]# subscription-manager refresh 
+All local data refreshed 
+ 
+
+
+[root@localhost ~]# subscription-manager attach --auto 
+Installed Product Current Status: 
+Product Name: Red Hat Enterprise Linux Server 
+Status:       Subscribed 
+
+ 
+
+[root@localhost ~]# subscription-manager status 
++-------------------------------------------+ 
+   System Status Details 
++-------------------------------------------+ 
+Overall Status: Current 
+System Purpose Status: Not Specified 
+[root@localhost ~]# 
+
+
+ 
+[root@localhost yum.repos.d]# subscription-manager list 
++-------------------------------------------+ 
+    Installed Product Status 
++-------------------------------------------+ 
+Product Name:   Red Hat Enterprise Linux Server 
+Product ID:     69 
+Version:        7.9 
+Arch:           x86_64 
+Status:         Subscribed 
+Status Details: 
+Starts:         11/24/2021 
+Ends:           11/24/2022 
+
+ 
+
+# All repositories are stored at below location 
+[root@localhost ~]# cd /etc/yum.repos.d/ 
+[root@localhost yum.repos.d]# ls 
+epel.repo          redhat.repo       remi-glpi93.repo   remi-php54.repo  remi-php72.repo  remi-php80.repo  remi-safe.repo 
+epel-testing.repo  remi-glpi91.repo  remi-glpi94.repo   remi-php70.repo  remi-php73.repo  remi-php81.repo 
+mariadb.repo       remi-glpi92.repo  remi-modular.repo  remi-php71.repo  remi-php74.repo  remi.repo 
+
+ 
+
+# General contents in repository: vim redhat.repo 
+[rhel-7-server-ose-4.11-debug-rpms] 
+metadata_expire = 86400 
+enabled_metadata = 0 
+sslclientcert = /etc/pki/entitlement/3201504019866114210.pem 
+baseurl = https://cdn.redhat.com/content/dist/rhel/server/7/7Server/$basearch/ose/4.11/debug 
+ui_repoid_vars = basearch 
+sslverify = 1 
+name = Red Hat OpenShift Container Platform 4.11 (Debug RPMs) 
+sslclientkey = /etc/pki/entitlement/3201504019866114210-key.pem 
+gpgkey = file:///etc/pki/rpm-gpg/RPM-GPG-KEY-redhat-release 
+enabled = 0 
+sslcacert = /etc/rhsm/ca/redhat-uep.pem 
+gpgcheck = 1 
+
+ 
+
+# Displaying repositories: yum repolist 
+[root@localhost yum.repos.d]# yum repolist 
+Loaded plugins: langpacks, product-id, search-disabled-repos, subscription-manager 
+repo id                                                                repo name                                                                                  status 
+!epel/x86_64                                                           Extra Packages for Enterprise Linux 7 - x86_64                                             13,746 
+!mariadb                                                               MariaDB                                                                                        83 
+!mariadb-main                                                          MariaDB Server                                                                                 99 
+!mariadb-maxscale                                                      MariaDB MaxScale                                                                                4 
+!mariadb-tools                                                         MariaDB Tools                                                                                  15 
+!remi-php74                                                            Remi's PHP 7.4 RPM repository for Enterprise Linux 7 - x86_64                                 436 
+!remi-safe                                                             Safe Remi's RPM repository for Enterprise Linux 7 - x86_64                                  4,707 
+rhel-7-server-optional-rpms/7Server/x86_64                             Red Hat Enterprise Linux 7 Server - Optional (RPMs)                                        23,367 
+rhel-7-server-rpms/7Server/x86_64                                      Red Hat Enterprise Linux 7 Server (RPMs)                                                   32,908 
+repolist: 75,365 
+
+
+
+# Ensure there is no proxy configurtion in below file if proxy is not required 
+vim /etc/rhsm/rhsm.conf 
+
+
+
+# YUM configuration - /etc/yum.conf 
+[main] 
+cachedir=/var/cache/yum/$basearch/$releasever 
+keepcache=0 
+debuglevel=2 
+logfile=/var/log/yum.log 
+exactarch=1 
+obsoletes=1 
+gpgcheck=1 
+plugins=1 
+installonly_limit=3 
